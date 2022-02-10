@@ -1,5 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
+import { ArticleModule } from "src/articles/article.module";
+import { UserModule } from "src/users/user.module";
 import { CommentController } from "./comment.controller";
 import { CommentRepository } from "./comment.repository";
 import { CommentService } from "./comment.service";
@@ -10,6 +12,8 @@ import { Comment, CommentSchema } from "./schemas/comment.schema";
         MongooseModule.forFeature([
           { name: Comment.name, schema: CommentSchema },
         ]),
+        ArticleModule,
+        UserModule
       ],
     controllers: [CommentController],
     providers: [CommentRepository,CommentService]  

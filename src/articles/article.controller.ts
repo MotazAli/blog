@@ -22,9 +22,9 @@ export class ArticleController {
     } 
 
     @HttpCode(200)
-    @Post(':userId')
-    async addArticle(@Param('userId') userId:string ,@Body() createArticleDto : CreateArticleDto): Promise<Article> {
-        return await this.articleService.addArticle(userId,createArticleDto);
+    @Post('')
+    async addArticle(@Body() createArticleDto : CreateArticleDto): Promise<Article> {
+        return await this.articleService.addArticle(createArticleDto);
     } 
 
     @HttpCode(200)

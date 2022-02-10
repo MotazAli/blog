@@ -26,11 +26,11 @@ export class ThumbController{
         return await this.thumbsService.addThumb(createThumbDto);
     } 
 
-    @HttpCode(200)
-    @Put(':id')
-    async updateThumb(@Param('id') id : string ,@Body() updateThumbDto : UpdateThumbDto): Promise<Thumb> {
-        return await this.thumbsService.updateThumb(id,updateThumbDto);
-    } 
+    // @HttpCode(200)
+    // @Put(':id')
+    // async updateThumb(@Param('id') id : string ,@Body() updateThumbDto : UpdateThumbDto): Promise<Thumb> {
+    //     return await this.thumbsService.updateThumb(id,updateThumbDto);
+    // } 
 
     @HttpCode(200)
     @Delete(':id')

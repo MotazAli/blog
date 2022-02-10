@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { ICommentRepository } from "./abstracts/comment-repository-abstract";
+import { Article } from "src/articles/schemas/article.schema";
+import { User } from "src/users/schemas/user.schema";
+import { ICommentRepository } from "./abstracts/comment-repository.abstract";
 import { CreateCommentDto } from "./dto/create.comment.dto";
 import { UpdateCommentDto } from "./dto/update.comment.dto";
 import { Comment, CommentDocument } from "./schemas/comment.schema";
@@ -12,8 +14,8 @@ export class CommentRepository extends ICommentRepository{
     constructor(@InjectModel(Comment.name) private articleModel: Model<CommentDocument>){super();}
 
 
-    async insertComment(createCommentDto: CreateCommentDto): Promise<Comment> {
-        const newComment = new this.articleModel(createCommentDto);
+    async insertComment(createCommentDto: CreateCommentDto,article:Article, user:User): Promise<Comment> {
+        const newComment = new this.articleModel({...createCommentDto, article, user });
         return newComment.save();
     }
 

@@ -7,17 +7,17 @@ export type UserDocument = User & Document;
 
 @Schema({ timestamps: true})
 export class User {
-  @Prop()
+  @Prop({required: true})
   name: string;
 
-  @Prop()
+  @Prop({required: true})
   jobTitle: string;
 
-  @Prop()
+  @Prop({required: true})
   userTypeId: number;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article' }]})
-  articles: Article[];
+  articles?: Article[];
 
 }
 

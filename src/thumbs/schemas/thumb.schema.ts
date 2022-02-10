@@ -11,16 +11,10 @@ export class Thumb {
  
 
 
-  @Prop()
-  articleId: string;
-
-  @Prop()
-  userId: string;
-
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'Article' } })
+  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Article' , required: true  })
   article: Article;
 
-  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' , required: true })
   user: User;
 
 }

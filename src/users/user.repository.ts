@@ -1,13 +1,15 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { IUserRepository } from "./abstracts/user-repository-abstract";
+import { Article } from "src/articles/schemas/article.schema";
+import { IUserRepository } from "./abstracts/user-repository.abstract";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { User, UserDocument } from "./schemas/user.schema";
 
 @Injectable()
 export class UserRepository extends IUserRepository{
+    
 
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>){ super(); }
 
@@ -15,7 +17,7 @@ export class UserRepository extends IUserRepository{
     async insertUser(createUserDto: CreateUserDto): Promise<User> {
 
         const createdUser =  new this.userModel(createUserDto);
-        return createdUser.save();
+        return await createdUser.save();
         // return new Promise<User>((resolve) => {
         //     let motaz = new User();
         //     motaz.id = "1";
@@ -35,7 +37,7 @@ export class UserRepository extends IUserRepository{
           );
       
           if (!oldUser) {
-            throw new NotFoundException(`Customer #${id} not found`);
+            throw new NotFoundException(`User with id${id} not found`);
           }
       
           return oldUser;
@@ -48,6 +50,22 @@ export class UserRepository extends IUserRepository{
         //     resolve(motaz);
         // });
     }
+
+
+    async updateUserArticles(id: String, articles: Article[]): Promise<User> {
+        const oldUser = await this.userModel.findByIdAndUpdate(
+            { _id: id },
+            {articles:articles},
+          );
+      
+          if (!oldUser) {
+            throw new NotFoundException(`User with id ${id} not found`);
+          }
+      
+          return oldUser;
+    }
+
+
     async deleteUser(id: String): Promise<Boolean> {
 
         const deletedUser = await this.userModel.findByIdAndRemove(id);
@@ -61,10 +79,11 @@ export class UserRepository extends IUserRepository{
 
         const user = await this.userModel
         .findById({ _id: id })
+        .populate('articles')
         .exec();
 
         if (!user) {
-        throw new NotFoundException(`user #${id} not found`);
+        throw new NotFoundException(`User with id ${id} not found`);
         }
 
         return user;
