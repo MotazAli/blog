@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from "@nestjs/common";
-import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { ArticleService } from "./article.service";
 import { CreateArticleDto } from "./dto/create-article.dto";
@@ -12,6 +12,8 @@ export class ArticleController {
     
     constructor(private articleService:ArticleService){}
 
+    @ApiQuery({ required:false,name:'offset', schema:{ type: 'number' , example:0} })
+    @ApiQuery({ required:false,name:'limit', schema:{ type: 'number' , example:5} })
     @ApiOkResponse({type : Article , isArray : true , description: "Response with (Articles) as collection of object"})
     @Get()
     async getArticles(@Query() paginationQueryDto:PaginationQueryDto): Promise<Article[]> {
