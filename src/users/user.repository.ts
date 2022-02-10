@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { Article } from "src/articles/schemas/article.schema";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { IUserRepository } from "./abstracts/user-repository.abstract";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -104,6 +105,15 @@ export class UserRepository extends IUserRepository{
         //     motaz.jobTitle = "engineer"
         //     resolve([motaz]);
         // });
+    }
+
+    async findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<User[]>{
+      const { limit, offset } = paginationQueryDto;
+      return await this.userModel
+      .find()
+      .skip(offset)
+      .limit(limit)
+      .exec();;
     }
 
 }

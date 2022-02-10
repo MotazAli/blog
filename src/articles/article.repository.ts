@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model , Types } from "mongoose";
 import { Comment } from "src/comments/schemas/comment.schema";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { User } from "src/users/schemas/user.schema";
 import { IArticleRepository } from "./abstracts/article-repository.abstract";
 import { CreateArticleDto } from "./dto/create-article.dto";
@@ -68,6 +69,21 @@ export class ArticleRepository extends IArticleRepository{
 
         return article;
     }
-    async findAll(): Promise<Article[]> { return  await this.articleModel.find();}
+    async findAll(): Promise<Article[]> { 
+        return  await this.articleModel
+        .find()
+        .sort({totleThumbs: 'descending'})
+        .exec();
+    }
+
+    async findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<Article[]>{
+        const { limit, offset } = paginationQueryDto;
+        return await this.articleModel
+        .find()
+        .sort({totleThumbs: 'descending'})
+        .skip(offset)
+        .limit(limit)
+        .exec();;
+    }
     
 }

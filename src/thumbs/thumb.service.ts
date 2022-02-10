@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { ArticleService } from "src/articles/article.service";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { UserService } from "src/users/user.service";
 import { IThumbService } from "./abstracts/thumb-service.abstract";
 import { CreateThumbDto } from "./dto/create-thumb.dto";
@@ -55,6 +56,10 @@ export class ThumbService extends IThumbService{
     }
     async findAll(): Promise<Thumb[]> {
         return await this.thumbRepository.findAll();
+    }
+
+    async findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<Thumb[]> {
+        return await this.thumbRepository.findAllUsing(paginationQueryDto);
     }
     
 }

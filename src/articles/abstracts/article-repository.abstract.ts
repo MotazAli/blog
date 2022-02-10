@@ -1,4 +1,5 @@
 import { Comment } from "src/comments/schemas/comment.schema";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { User } from "src/users/schemas/user.schema";
 import { CreateArticleDto } from "../dto/create-article.dto";
 import { UpdateArticleDto } from "../dto/update-article.dto";
@@ -12,4 +13,5 @@ export abstract class IArticleRepository{
     abstract deleteArticle(id:string): Promise<Boolean>;
     abstract findOne(id:string):  Promise<Article>;
     abstract findAll(): Promise<Article[]>;
+    abstract findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<Article[]>;
 }

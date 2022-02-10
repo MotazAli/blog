@@ -1,4 +1,5 @@
 import { Article } from "src/articles/schemas/article.schema";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { CreateUserDto } from "../dto/create-user.dto";
 import { UpdateUserDto } from "../dto/update-user.dto";
 import { User } from "../schemas/user.schema";
@@ -12,4 +13,5 @@ export abstract class IUserService{
     abstract deleteUser(id:string): Promise<Boolean>;
     abstract findOne(id:string):  Promise<User>;
     abstract findAll(): Promise<User[]>;
+    abstract findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<User[]>;
 }

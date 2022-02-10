@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { ArticleService } from "src/articles/article.service";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { UserService } from "src/users/user.service";
 import { ICommentService } from "./abstracts/comment-service.abstract";
 import { CommentRepository } from "./comment.repository";
@@ -60,6 +61,10 @@ export class CommentService extends ICommentService{
     }
     async findAll(): Promise<Comment[]> {
         return await this.commentRepository.findAll();
+    }
+
+    async findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<Comment[]> {
+        return await this.commentRepository.findAllUsing(paginationQueryDto);
     }
     
 }

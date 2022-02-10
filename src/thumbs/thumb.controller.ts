@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { CreateThumbDto } from "./dto/create-thumb.dto";
 import { Thumb } from "./schemas/thumb.schema";
 import { ThumbService } from "./thumb.service";
@@ -11,8 +12,13 @@ export class ThumbController{
 
     @ApiOkResponse({type : Thumb, isArray : true, description: "Response with (Thumbs) as collection of object" })
     @Get()
-    async getThumbs(): Promise<Thumb[]> {
-        return await this.thumbsService.findAll();
+    async getThumbs( @Query() paginationQueryDto:PaginationQueryDto): Promise<Thumb[]> {
+        if(Object.keys(paginationQueryDto).length==0 ){
+            return await this.thumbsService.findAll();
+        }
+
+        return await this.thumbsService.findAllUsing(paginationQueryDto);
+
     } 
 
     @ApiOkResponse({type : Thumb, description: "Response with (Thumb) as object" })

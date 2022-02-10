@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/create.comment.dto";
 import { UpdateCommentDto } from "./dto/update.comment.dto";
@@ -12,8 +13,11 @@ export class CommentController{
 
     @ApiOkResponse({type : Comment, isArray : true, description: "Response with (Comments) as collection of object" })
     @Get()
-    async getComments(): Promise<Comment[]> {
-        return await this.commentService.findAll();
+    async getComments( @Query() paginationQueryDto:PaginationQueryDto): Promise<Comment[]> {
+        if(Object.keys(paginationQueryDto).length==0 ){
+            return await this.commentService.findAll();
+        }
+        return await this.commentService.findAllUsing(paginationQueryDto);
     } 
 
     @ApiOkResponse({type : Comment, description: "Response with (Comment) as object" })

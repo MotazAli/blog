@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { ArticleService } from "./article.service";
 import { CreateArticleDto } from "./dto/create-article.dto";
 import { UpdateArticleDto } from "./dto/update-article.dto";
@@ -13,8 +14,11 @@ export class ArticleController {
 
     @ApiOkResponse({type : Article , isArray : true , description: "Response with (Articles) as collection of object"})
     @Get()
-    async getArticles(): Promise<Article[]> {
-        return await this.articleService.findAll();
+    async getArticles(@Query() paginationQueryDto:PaginationQueryDto): Promise<Article[]> {
+        if(Object.keys(paginationQueryDto).length==0 ){
+            return await this.articleService.findAll();
+        }
+        return await this.articleService.findAllUsing(paginationQueryDto);
     } 
 
     @ApiOkResponse({type : Article, description: "Response with (Article) as object"})

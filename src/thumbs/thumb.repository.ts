@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { Article } from "src/articles/schemas/article.schema";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
 import { User } from "src/users/schemas/user.schema";
 import { IThumbRepository } from "./abstracts/thumb-repository.abstract";
 import { CreateThumbDto } from "./dto/create-thumb.dto";
@@ -45,5 +46,13 @@ export class ThumbRepository extends IThumbRepository{
     async findAll(): Promise<Thumb[]> {
         return await this.thumbModel.find().exec();
     }
+    async findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<Thumb[]>{
+        const { limit, offset } = paginationQueryDto;
+        return await this.thumbModel
+        .find()
+        .skip(offset)
+        .limit(limit)
+        .exec();;
+      }
     
 }

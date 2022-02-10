@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Article } from "src/articles/schemas/article.schema";
-import { UserType } from "src/utilities/enums";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
+import { UserType } from "src/common/enums";
 import { IUserService } from "./abstracts/user-service.abstract";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -45,6 +46,10 @@ export class UserService extends IUserService{
     }
     async findAll(): Promise<User[]> {
         return await this.userRepository.findAll();
+    }
+
+    async findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<User[]> {
+        return await this.userRepository.findAllUsing(paginationQueryDto);
     }
 
 }
