@@ -8,13 +8,15 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Debug Nest Framework",
-            "args": ["${workspaceFolder}/src/main.ts"],
-            "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
-            "sourceMaps": true,
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector"
-        }
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/src/main.ts",
+            "preLaunchTask": "tsc: watch - tsconfig.build.json",
+            "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+            "skipFiles": [
+              "${workspaceFolder}/node_modules/**/*.js",
+              "<node_internals>/**/*.js"
+            ]
+          }
     ]
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.

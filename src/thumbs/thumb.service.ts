@@ -39,6 +39,15 @@ export class ThumbService extends IThumbService{
     // }
 
     async deleteThumb(id: string): Promise<Boolean> {
+        const deletedThumb = await this.thumbRepository.findOne(id);
+        if(!deletedThumb){
+            throw new NotFoundException(`Thumb with id ${id} not found`);
+        }
+
+        const article =  await this.articleService.findOne(deletedThumb.article.id);
+        // update atricle thumbs
+        const newAttchedThumbs = 1 - article.totleThumbs ?? 0;
+        await this.articleService.updateArticleTotleThumbs(deletedThumb.article.id,newAttchedThumbs);
         return await this.thumbRepository.deleteThumb(id);
     }
     async findOne(id: string): Promise<Thumb> {

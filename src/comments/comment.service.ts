@@ -37,6 +37,22 @@ export class CommentService extends ICommentService{
     }
 
     async deleteComment(id: string): Promise<Boolean> {
+
+        const deletedComment = await this.commentRepository.findOne(id);
+        if(!deletedComment){
+            throw new NotFoundException(`Comment with id ${id} not found `)
+        }
+
+        const article = await this.articleService.findOne( deletedComment.article.id);
+        if(!article){
+            throw new NotFoundException(`Article with id ${deletedComment.article.id} not found `)
+        }
+        console.log(article);
+        console.log(article.comments);
+        //remove comment referance
+        const newAttchedComments = article.comments.filter(( comment )=> comment.id != id );
+        await this.articleService.updateArticleComments(deletedComment.article.id,newAttchedComments);
+        
         return await this.commentRepository.deleteComment(id);
     }
     async findOne(id: string): Promise<Comment> {

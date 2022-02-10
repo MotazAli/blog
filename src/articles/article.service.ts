@@ -43,6 +43,22 @@ export class ArticleService extends IArticleService {
     }
 
     async deleteArticle(id: string): Promise<Boolean> {
+
+        const deletedArticle = await this.articleRepository.findOne(id);
+        if(!deletedArticle){ 
+            throw new NotFoundException(`Article with id ${id} not found`);
+        }
+
+        const autherUser = await this.userService.findOne(deletedArticle.autherUser.id);
+        if(!autherUser){ 
+            throw new NotFoundException(`Auther user with id ${deletedArticle.autherUser.id} not found`);
+        }
+
+        // deleted article referance
+        const newAttchedArticles = autherUser.articles.filter((article)=> article.id != id);
+        // update user articles
+        await this.userService.updateUserArticles(deletedArticle.autherUser.id,newAttchedArticles);
+        
         return await this.articleRepository.deleteArticle(id);
     }
     async findOne(id: string): Promise<Article> {

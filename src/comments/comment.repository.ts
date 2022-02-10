@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { Article } from "src/articles/schemas/article.schema";
 import { User } from "src/users/schemas/user.schema";
 import { ICommentRepository } from "./abstracts/comment-repository.abstract";
@@ -20,7 +20,7 @@ export class CommentRepository extends ICommentRepository{
     }
 
     async updateComment(id: string, updateCommentDto: UpdateCommentDto): Promise<Comment> {
-        const updatedComment = await this.articleModel.findByIdAndUpdate({_id:id},updateCommentDto);
+        const updatedComment = await this.articleModel.findByIdAndUpdate(new Types.ObjectId( id),updateCommentDto);
         if(!updatedComment){
             throw new NotFoundException(`Comment with id ${id} not found`); 
         }
@@ -28,11 +28,11 @@ export class CommentRepository extends ICommentRepository{
     }
 
     async deleteComment(id: string): Promise<Boolean> {
-        const deletedComment = await this.articleModel.findByIdAndDelete(id);
+        const deletedComment = await this.articleModel.findByIdAndDelete(new Types.ObjectId( id));
         return deletedComment? true: false;
     }
     async findOne(id: string): Promise<Comment> {
-        const comment = await this.articleModel.findById({ _id: id }).exec();
+        const comment = await this.articleModel.findById(new Types.ObjectId( id)).exec();
         if(!comment){
             throw new NotFoundException(`Comment with id ${id} not found`); 
         }

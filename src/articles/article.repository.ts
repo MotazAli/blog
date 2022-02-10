@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model , Types } from "mongoose";
 import { Comment } from "src/comments/schemas/comment.schema";
 import { User } from "src/users/schemas/user.schema";
 import { IArticleRepository } from "./abstracts/article-repository.abstract";
@@ -21,7 +21,7 @@ export class ArticleRepository extends IArticleRepository{
         return await newArticle.save();
     }
     async updateArticle(id: string, updateArticleDto: UpdateArticleDto): Promise<Article> {
-        const updatedArticle = await this.articleModel.findByIdAndUpdate({_id:id},updateArticleDto)
+        const updatedArticle = await this.articleModel.findByIdAndUpdate( new Types.ObjectId( id),updateArticleDto)
         if (!updatedArticle) {
             throw new NotFoundException(`Article with id ${id} not found`);
           }
@@ -32,7 +32,7 @@ export class ArticleRepository extends IArticleRepository{
 
 
     async updateArticleComments(id: string, comments: Comment[]): Promise<Article> {
-        const updatedArticle = await this.articleModel.findByIdAndUpdate({_id:id},{comments:comments})
+        const updatedArticle = await this.articleModel.findByIdAndUpdate( new Types.ObjectId( id),{comments:comments})
         if (!updatedArticle) {
             throw new NotFoundException(`Article with id ${id} not found`);
           }
@@ -42,7 +42,7 @@ export class ArticleRepository extends IArticleRepository{
 
 
     async updateArticleTotleThumbs(id: string, totleThumbs: number): Promise<Article> {
-        const updatedArticle = await this.articleModel.findByIdAndUpdate({_id:id},{totleThumbs:totleThumbs})
+        const updatedArticle = await this.articleModel.findByIdAndUpdate( new Types.ObjectId( id),{totleThumbs:totleThumbs})
         if (!updatedArticle) {
             throw new NotFoundException(`Article with id ${id} not found`);
           }
@@ -52,12 +52,12 @@ export class ArticleRepository extends IArticleRepository{
 
 
     async deleteArticle(id: string): Promise<Boolean> {
-        const oldArticle = await this.articleModel.findByIdAndDelete(id)
+        const oldArticle = await this.articleModel.findByIdAndDelete(new Types.ObjectId( id))
         return oldArticle? true: false;
     }
     async findOne(id: string): Promise<Article> {
         const article = await this.articleModel
-        .findById({ _id: id })
+        .findById( new Types.ObjectId( id))
         .populate('autherUser')
         .populate('comments')
         .exec();

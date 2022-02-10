@@ -1,5 +1,5 @@
-import { MaxLength, IsNotEmpty, IsString } from 'class-validator';
-import { User } from 'src/users/schemas/user.schema';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsString } from 'class-validator';
 export class CreateArticleDto {
    
     @IsString()
@@ -8,13 +8,16 @@ export class CreateArticleDto {
   
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     body: string;
   
     @IsString()
     @IsNotEmpty()
+    @ApiProperty()
     autherUserId: string;
 
-    totleThumbs: number;
+    @ApiProperty({required : false})
+    totleThumbs?: number;
   
   }
   

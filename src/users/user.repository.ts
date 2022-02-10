@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { Article } from "src/articles/schemas/article.schema";
 import { IUserRepository } from "./abstracts/user-repository.abstract";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -28,11 +28,11 @@ export class UserRepository extends IUserRepository{
     }
 
 
-    async updateUser(id: String, updateUserDto: UpdateUserDto): Promise<User> {
+    async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
 
 
         const oldUser = await this.userModel.findByIdAndUpdate(
-            { _id: id },
+          new Types.ObjectId( id),
             updateUserDto,
           );
       
@@ -52,9 +52,9 @@ export class UserRepository extends IUserRepository{
     }
 
 
-    async updateUserArticles(id: String, articles: Article[]): Promise<User> {
+    async updateUserArticles(id: string, articles: Article[]): Promise<User> {
         const oldUser = await this.userModel.findByIdAndUpdate(
-            { _id: id },
+          new Types.ObjectId( id),
             {articles:articles},
           );
       
@@ -66,19 +66,19 @@ export class UserRepository extends IUserRepository{
     }
 
 
-    async deleteUser(id: String): Promise<Boolean> {
+    async deleteUser(id: string): Promise<Boolean> {
 
-        const deletedUser = await this.userModel.findByIdAndRemove(id);
+        const deletedUser = await this.userModel.findByIdAndRemove( new Types.ObjectId( id));
           return (deletedUser)? true : false;
         // return new Promise<Boolean>((resolve) => {
             
         //     resolve(true);
         // });
     }
-    async findOne(id: String): Promise<User> {
+    async findOne(id: string): Promise<User> {
 
         const user = await this.userModel
-        .findById({ _id: id })
+        .findById( new Types.ObjectId( id))
         .populate('articles')
         .exec();
 

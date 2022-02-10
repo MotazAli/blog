@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 import { Article } from "src/articles/schemas/article.schema";
 import { User } from "src/users/schemas/user.schema";
 import { IThumbRepository } from "./abstracts/thumb-repository.abstract";
@@ -28,12 +28,12 @@ export class ThumbRepository extends IThumbRepository{
     // }
 
     async deleteThumb(id: string): Promise<Boolean> {
-        const deletedThumb = await this.thumbModel.findByIdAndDelete(id);
+        const deletedThumb = await this.thumbModel.findByIdAndDelete(new Types.ObjectId( id));
         return deletedThumb? true: false;
     }
     async findOne(id: string): Promise<Thumb> {
         const Thumb = await this.thumbModel
-        .findById({ _id: id })
+        .findById(new Types.ObjectId( id))
         .populate('article')
         .populate('user')
         .exec();
