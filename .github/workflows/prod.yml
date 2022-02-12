@@ -26,3 +26,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "blog-task-api" 
           heroku_email: "motaz_ali@hotmail.com"
+          usedocker: true
