@@ -43,7 +43,7 @@ export class ArticleRepository extends IArticleRepository{
 
 
     async updateArticleTotleThumbs(id: string, totleThumbs: number): Promise<Article> {
-        const updatedArticle = await this.articleModel.findByIdAndUpdate( new Types.ObjectId( id),{totleThumbs:totleThumbs})
+        const updatedArticle = await this.articleModel.findByIdAndUpdate( new Types.ObjectId( id),{totleThumbs:totleThumbs},{new:true})
         if (!updatedArticle) {
             throw new NotFoundException(`Article with id ${id} not found`);
           }

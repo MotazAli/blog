@@ -2,8 +2,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import * as mongoose from 'mongoose';
 import { Document ,ObjectId} from 'mongoose';
-import { Comment } from 'src/comments/schemas/comment.schema';
-import { User } from 'src/users/schemas/user.schema';
+import { Comment } from '../../comments/schemas/comment.schema';
+import { User } from '../../users/schemas/user.schema';
 
 export type ArticleDocument = Article & Document;
 
@@ -16,7 +16,7 @@ export class Article {
   
   //@ApiProperty()
   //@Prop({ type: mongoose.Schema.Types.ObjectId })
-  id: string;
+  id?: string;
 
   @ApiProperty()
   @Prop({required: true})

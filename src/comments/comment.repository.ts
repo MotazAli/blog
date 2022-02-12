@@ -21,7 +21,7 @@ export class CommentRepository extends ICommentRepository{
     }
 
     async updateComment(id: string, updateCommentDto: UpdateCommentDto): Promise<Comment> {
-        const updatedComment = await this.articleModel.findByIdAndUpdate(new Types.ObjectId( id),updateCommentDto);
+        const updatedComment = await this.articleModel.findByIdAndUpdate(new Types.ObjectId( id),updateCommentDto,{new:true});
         if(!updatedComment){
             throw new NotFoundException(`Comment with id ${id} not found`); 
         }

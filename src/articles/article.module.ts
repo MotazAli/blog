@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { UserModule } from "src/users/user.module";
+import { UserModule } from "../users/user.module";
 import { ArticleController } from "./article.controller";
 import { ArticleRepository } from "./article.repository";
 import { ArticleService } from "./article.service";

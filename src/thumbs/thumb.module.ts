@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { ArticleModule } from "src/articles/article.module";
-import { UserModule } from "src/users/user.module";
+import { ArticleModule } from "../articles/article.module";
+import { UserModule } from "../users/user.module";
 import { Thumb, ThumbSchema } from "./schemas/thumb.schema";
 import { ThumbController } from "./thumb.controller";
 import { ThumbRepository } from "./thumb.repository";

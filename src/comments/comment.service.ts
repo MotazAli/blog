@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { ArticleService } from "src/articles/article.service";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
-import { UserService } from "src/users/user.service";
+import { ArticleService } from "../articles/article.service";
+import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
+import { UserService } from "../users/user.service";
 import { ICommentService } from "./abstracts/comment-service.abstract";
 import { CommentRepository } from "./comment.repository";
 import { CreateCommentDto } from "./dto/create.comment.dto";
 import { UpdateCommentDto } from "./dto/update.comment.dto";
-import { Comment, CommentDocument } from "./schemas/comment.schema";
+import { Comment } from "./schemas/comment.schema";
 
 @Injectable()
 export class CommentService extends ICommentService{

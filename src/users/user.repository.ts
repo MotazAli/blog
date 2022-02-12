@@ -19,13 +19,7 @@ export class UserRepository extends IUserRepository{
 
         const createdUser =  new this.userModel(createUserDto);
         return await createdUser.save();
-        // return new Promise<User>((resolve) => {
-        //     let motaz = new User();
-        //     motaz.id = "1";
-        //     motaz.name = "Motaz";
-        //     motaz.jobTitle = "engineer"
-        //     resolve(motaz);
-        // });
+  
     }
 
 
@@ -35,6 +29,7 @@ export class UserRepository extends IUserRepository{
         const oldUser = await this.userModel.findByIdAndUpdate(
           new Types.ObjectId( id),
             updateUserDto,
+            {new:true}
           );
       
           if (!oldUser) {
@@ -42,14 +37,6 @@ export class UserRepository extends IUserRepository{
           }
       
           return oldUser;
-
-        // return new Promise<User>((resolve) => {
-        //     let motaz = new User();
-        //     motaz.id = "1";
-        //     motaz.name = "Motaz";
-        //     motaz.jobTitle = "engineer"
-        //     resolve(motaz);
-        // });
     }
 
 
@@ -57,6 +44,7 @@ export class UserRepository extends IUserRepository{
         const oldUser = await this.userModel.findByIdAndUpdate(
           new Types.ObjectId( id),
             {articles:articles},
+            {new:true}
           );
       
           if (!oldUser) {
@@ -71,10 +59,7 @@ export class UserRepository extends IUserRepository{
 
         const deletedUser = await this.userModel.findByIdAndRemove( new Types.ObjectId( id));
           return (deletedUser)? true : false;
-        // return new Promise<Boolean>((resolve) => {
-            
-        //     resolve(true);
-        // });
+        
     }
     async findOne(id: string): Promise<User> {
 
@@ -88,23 +73,10 @@ export class UserRepository extends IUserRepository{
         }
 
         return user;
-        // return new Promise<User>((resolve) => {
-        //     let motaz = new User();
-        //     motaz.id = "1";
-        //     motaz.name = "Motaz";
-        //     motaz.jobTitle = "engineer"
-        //     resolve(motaz);
-        // });
     }
     async findAll(): Promise<User[]> {
-        return await this.userModel.find();
-        // return new Promise<User[]>((resolve) => {
-        //     let motaz = new User();
-        //     motaz.id = "1";
-        //     motaz.name = "Motaz";
-        //     motaz.jobTitle = "engineer"
-        //     resolve([motaz]);
-        // });
+        return await this.userModel.find().exec();
+        
     }
 
     async findAllUsing(paginationQueryDto:PaginationQueryDto): Promise<User[]>{

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
+import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
 import { CommentService } from "./comment.service";
 import { CreateCommentDto } from "./dto/create.comment.dto";
 import { UpdateCommentDto } from "./dto/update.comment.dto";
@@ -15,8 +15,8 @@ export class CommentController{
     @ApiQuery({ required:false,name:'limit', schema:{ type: 'number' , example:5} })
     @ApiOkResponse({type : Comment, isArray : true, description: "Response with (Comments) as collection of object" })
     @Get()
-    async getComments( @Query() paginationQueryDto:PaginationQueryDto): Promise<Comment[]> {
-        if(Object.keys(paginationQueryDto).length==0 ){
+    async getComments( @Query() paginationQueryDto?:PaginationQueryDto): Promise<Comment[]> {
+        if( !paginationQueryDto || Object.keys(paginationQueryDto).length==0 ){
             return await this.commentService.findAll();
         }
         return await this.commentService.findAllUsing(paginationQueryDto);

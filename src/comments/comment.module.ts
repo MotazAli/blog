@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { ArticleModule } from "src/articles/article.module";
-import { UserModule } from "src/users/user.module";
+import { ArticleModule } from "../articles/article.module";
+import { UserModule } from "../users/user.module";
 import { CommentController } from "./comment.controller";
 import { CommentRepository } from "./comment.repository";
 import { CommentService } from "./comment.service";

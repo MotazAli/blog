@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Article } from "src/articles/schemas/article.schema";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
-import { UserType } from "src/common/enums";
+import { Article } from "../articles/schemas/article.schema";
+import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
+import { UserType } from "../common/enums";
 import { IUserService } from "./abstracts/user-service.abstract";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";

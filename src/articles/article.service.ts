@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { Comment } from "src/comments/schemas/comment.schema";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
-import { UserService } from "src/users/user.service";
+import { Comment } from "../comments/schemas/comment.schema";
+import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
+import { UserService } from "../users/user.service";
 import { IArticleService } from "./abstracts/article-service.abstract"
 import { ArticleRepository } from "./article.repository";
 import { CreateArticleDto } from "./dto/create-article.dto";

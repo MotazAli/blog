@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  mongo_db:
+    container_name: mongo_db_container
+    image: mongo:latest
+    ports:
+      - 27017:27017
+
+
+  # blog_dev:
+  #   depends_on:
+  #     - mongo_db
+  #   container_name: nestjs_api_dev
+  #   image: nestjs-api-dev:1.0.0
+  #   build:
+  #     context: .
+  #     target: development
+  #     dockerfile: ./Dockerfile
+  #   command: npm run start:debug
+  #   ports:
+  #     - 3000:3000
+  #     - 9229:9229
+  #   networks:
+  #     - nesjs-network
+  #   volumes:
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   restart: unless-stopped
+  blog_prod:
+    depends_on:
+      - mongo_db
+    container_name: blog_api_prod_container
+    # image: nestjs-api-prod:1.0.0
+    build:
+      context: .
+      target: production
+      dockerfile: ./Dockerfile
+    command: npm run start:prod
+    ports:
+      - 3000:3000
+    #   - 9229:9229
+    # networks:
+    #   - nesjs-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+
+# networks:
+#     nesjs-network:

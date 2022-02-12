@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { ArticleService } from "src/articles/article.service";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
-import { UserService } from "src/users/user.service";
+import { ArticleService } from "../articles/article.service";
+import { PaginationQueryDto } from "../common/dto/pagination-query.dto";
+import { UserService } from "../users/user.service";
 import { IThumbService } from "./abstracts/thumb-service.abstract";
 import { CreateThumbDto } from "./dto/create-thumb.dto";
-import { UpdateThumbDto } from "./dto/update-thumb.dto";
-import { Thumb, ThumbDocument } from "./schemas/thumb.schema";
+import { Thumb } from "./schemas/thumb.schema";
 import { ThumbRepository } from "./thumb.repository";
 
 @Injectable()

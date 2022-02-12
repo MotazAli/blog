@@ -11,7 +11,7 @@ export class User {
 
   
   // @Prop({_id})
-  id: string;
+  id?: string;
 
   @ApiProperty()
   @Prop({required: true})

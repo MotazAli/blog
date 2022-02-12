@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from "@nestjs/common";
 import { ApiNotFoundResponse, ApiOkResponse, ApiQuery, ApiTags } from "@nestjs/swagger";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto";
+import { PaginationQueryDto } from "../common/dto/pagination-query.dto" //"src/common/dto/pagination-query.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { User } from "./schemas/user.schema";
@@ -15,10 +15,10 @@ export class UserController{
     @ApiQuery({ required:false,name:'limit', schema:{ type: 'number' , example:5} })
     @ApiOkResponse({type : User , isArray : true, description: "Response with (Users) as collection of object"})
     @Get()
-    async getUsers( @Query() paginationQueryDto:PaginationQueryDto ): Promise<User[]> {
+    async getUsers( @Query() paginationQueryDto?:PaginationQueryDto ): Promise<User[]> {
         
         
-        if(Object.keys(paginationQueryDto).length==0 ){
+        if(!paginationQueryDto || Object.keys(paginationQueryDto).length==0 ){
             return await this.userService.findAll();
         }
         
